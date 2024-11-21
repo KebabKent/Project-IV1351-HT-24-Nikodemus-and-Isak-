@@ -233,7 +233,7 @@ ALTER TABLE instructor_expertise ADD CONSTRAINT PK_instructor_expertise PRIMARY 
 
 CREATE TABLE student_ensemble (
  students_id INT GENERATED ALWAYS AS IDENTITY NOT NULL,
- ensemble_id INT NOT NULL
+ ensemble_id INT GENERATED ALWAYS AS IDENTITY
 );
 
 ALTER TABLE student_ensemble ADD CONSTRAINT PK_student_ensemble PRIMARY KEY (students_id,ensemble_id);
@@ -241,7 +241,7 @@ ALTER TABLE student_ensemble ADD CONSTRAINT PK_student_ensemble PRIMARY KEY (stu
 
 CREATE TABLE student_group_lesson (
  students_id INT GENERATED ALWAYS AS IDENTITY NOT NULL,
- group_lesson_id INT NOT NULL
+ group_lesson_id INT GENERATED ALWAYS AS IDENTITY
 );
 
 ALTER TABLE student_group_lesson ADD CONSTRAINT PK_student_group_lesson PRIMARY KEY (students_id,group_lesson_id);
