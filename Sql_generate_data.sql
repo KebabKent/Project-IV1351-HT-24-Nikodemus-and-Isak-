@@ -121,13 +121,13 @@ INSERT INTO instrument (brand, monthly_price, instrument_type_id) VALUES
 
 -- Insert data into instrument_expertise
 INSERT INTO instrument_expertise (skill_level, instrument_type_id) VALUES
-('Beginner',     1), ('Intermediate', 1), ('Advanced',     1),
-('Beginner',     2), ('Intermediate', 2), ('Advanced',     2),
-('Beginner',     3), ('Intermediate', 3), ('Advanced',     3),
-('Beginner',     4), ('Intermediate', 4), ('Advanced',     4),
-('Beginner',     5), ('Intermediate', 5), ('Advanced',     5),
-('Beginner',     6), ('Intermediate', 6), ('Advanced',     6),
-('Beginner',     7), ('Intermediate', 7), ('Advanced',     7);
+(1,     1), (2, 1), (3,     1),
+(1,     2), (2, 2), (3,     2),
+(1,     3), (2, 3), (3,     3),
+(1,     4), (2, 4), (3,     4),
+(1,     5), (2, 5), (3,     5),
+(1,     6), (2, 6), (3,     6),
+(1,     7), (2, 7), (3,     7);
 
 -- Insert data into instructor_expertise
 INSERT INTO instructor_expertise (instructor_id, instrument_expertise_id) VALUES
@@ -156,17 +156,17 @@ INSERT INTO rented_instrument (students_id, instrument_id, rent_date, return_by,
 -- Individual, Group, Ensemble = 50, 100, 150
 -- instructor pay 50%
 INSERT INTO price_scheme (skill_level, lesson_type, lesson_price, instructor_pay) VALUES
-('Beginner',     'Individual',     100.00, 50.00),
-('Beginner',     'Group',          150.00, 75.00),
-('Beginner',     'Ensemble',       200.00, 100.00),
+(1,     1,     100.00, 50.00),
+(1,     2,          150.00, 75.00),
+(1,     3,       200.00, 100.00),
 
-('Intermediate', 'Individual',     150.00, 75.00),
-('Intermediate', 'Group',          200.00, 100.00),
-('Intermediate', 'Ensemble',       250.00, 125.00),
+(2, 1,     150.00, 75.00),
+(2, 2,          200.00, 100.00),
+(2, 3,       250.00, 125.00),
 
-('Advanced',     'Individual',     200.00, 100.00),
-('Advanced',     'Group',          250.00, 125.00),
-('Advanced',     'Ensemble',       300.00, 150.00);
+(3,     1,     200.00, 100.00),
+(3,     2,          250.00, 125.00),
+(3,     3,       300.00, 150.00);
 
 -- Insert data into time_slot
 INSERT INTO time_slot (start_time, end_time) VALUES

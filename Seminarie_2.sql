@@ -68,8 +68,8 @@ ALTER TABLE phone_number ADD CONSTRAINT PK_phone_number PRIMARY KEY (phone_id);
 
 CREATE TABLE price_scheme (
  price_Scheme_id INT GENERATED ALWAYS AS IDENTITY NOT NULL,
- skill_level ENUM(3) NOT NULL,
- lesson_type ENUM(3) NOT NULL,
+ skill_level ENUM('Beginner', 'Intermediate', 'Advanced') NOT NULL,
+ lesson_type ENUM('Individual', 'Group', 'Ensemble') NOT NULL,
  lesson_price FLOAT(20) NOT NULL,
  instructor_pay FLOAT(20) NOT NULL
 );
@@ -137,7 +137,7 @@ ALTER TABLE instrument ADD CONSTRAINT PK_instrument PRIMARY KEY (instrument_id);
 
 CREATE TABLE instrument_expertise (
  instrument_expertise_id INT GENERATED ALWAYS AS IDENTITY NOT NULL,
- skill_level ENUM(3),
+ skill_level ENUM('Beginner', 'Intermediate', 'Advanced'),
  instrument_type_id INT GENERATED ALWAYS AS IDENTITY NOT NULL
 );
 
