@@ -43,16 +43,16 @@ ALTER TABLE person ADD CONSTRAINT PK_person PRIMARY KEY (person_id);
 
 
 CREATE TABLE person_address (
- address_id INT GENERATED ALWAYS AS IDENTITY NOT NULL,
- person_id INT GENERATED ALWAYS AS IDENTITY NOT NULL
+ address_id INT NOT NULL,
+ person_id INT NOT NULL
 );
 
 ALTER TABLE person_address ADD CONSTRAINT PK_person_address PRIMARY KEY (address_id,person_id);
 
 
 CREATE TABLE person_email (
- person_id INT GENERATED ALWAYS AS IDENTITY NOT NULL,
- email_id INT GENERATED ALWAYS AS IDENTITY NOT NULL
+ person_id INT NOT NULL,
+ email_id INT NOT NULL
 );
 
 ALTER TABLE person_email ADD CONSTRAINT PK_person_email PRIMARY KEY (person_id,email_id);
@@ -80,7 +80,7 @@ ALTER TABLE price_scheme ADD CONSTRAINT PK_price_scheme PRIMARY KEY (price_Schem
 CREATE TABLE student (
  students_id INT GENERATED ALWAYS AS IDENTITY NOT NULL,
  person_number VARCHAR(12) NOT NULL UNIQUE,
- person_id INT GENERATED ALWAYS AS IDENTITY NOT NULL
+ person_id INT NOT NULL
 );
 
 ALTER TABLE student ADD CONSTRAINT PK_student PRIMARY KEY (students_id);
@@ -98,7 +98,7 @@ ALTER TABLE time_slot ADD CONSTRAINT PK_time_slot PRIMARY KEY (time_slot_id);
 CREATE TABLE contact_person (
  contact_person_id INT GENERATED ALWAYS AS IDENTITY NOT NULL,
  relation VARCHAR(50),
- person_id INT GENERATED ALWAYS AS IDENTITY NOT NULL
+ person_id INT NOT NULL
 );
 
 ALTER TABLE contact_person ADD CONSTRAINT PK_contact_person PRIMARY KEY (contact_person_id);
@@ -106,7 +106,7 @@ ALTER TABLE contact_person ADD CONSTRAINT PK_contact_person PRIMARY KEY (contact
 
 CREATE TABLE instructor (
  instructor_id INT GENERATED ALWAYS AS IDENTITY NOT NULL,
- person_id INT GENERATED ALWAYS AS IDENTITY NOT NULL,
+ person_id INT NOT NULL,
  person_number VARCHAR(12) NOT NULL,
  ensemble_capable BIT(1) NOT NULL
 );
@@ -119,7 +119,7 @@ CREATE TABLE instructor_availability (
  start_time TIMESTAMP NOT NULL,
  end_time TIMESTAMP NOT NULL,
  availability_status BIT(1) NOT NULL,
- instructor_id INT GENERATED ALWAYS AS IDENTITY NOT NULL
+ instructor_id INT NOT NULL
 );
 
 ALTER TABLE instructor_availability ADD CONSTRAINT PK_instructor_availability PRIMARY KEY (availability_id);
@@ -129,7 +129,7 @@ CREATE TABLE instrument (
  instrument_id INT GENERATED ALWAYS AS IDENTITY NOT NULL,
  brand VARCHAR(50) NOT NULL,
  monthly_price INT NOT NULL,
- instrument_type_id INT GENERATED ALWAYS AS IDENTITY NOT NULL
+ instrument_type_id INT NOT NULL
 );
 
 ALTER TABLE instrument ADD CONSTRAINT PK_instrument PRIMARY KEY (instrument_id);
@@ -138,23 +138,23 @@ ALTER TABLE instrument ADD CONSTRAINT PK_instrument PRIMARY KEY (instrument_id);
 CREATE TABLE instrument_expertise (
  instrument_expertise_id INT GENERATED ALWAYS AS IDENTITY NOT NULL,
  skill_level ENUM('Beginner', 'Intermediate', 'Advanced'),
- instrument_type_id INT GENERATED ALWAYS AS IDENTITY NOT NULL
+ instrument_type_id INT NOT NULL
 );
 
 ALTER TABLE instrument_expertise ADD CONSTRAINT PK_instrument_expertise PRIMARY KEY (instrument_expertise_id);
 
 
 CREATE TABLE person_phone_number (
- person_id INT GENERATED ALWAYS AS IDENTITY NOT NULL,
- phone_id INT GENERATED ALWAYS AS IDENTITY NOT NULL
+ person_id INT NOT NULL,
+ phone_id INT NOT NULL
 );
 
 ALTER TABLE person_phone_number ADD CONSTRAINT PK_person_phone_number PRIMARY KEY (person_id,phone_id);
 
 
 CREATE TABLE rented_instrument (
- students_id INT GENERATED ALWAYS AS IDENTITY NOT NULL,
- instrument_id INT GENERATED ALWAYS AS IDENTITY NOT NULL,
+ students_id INT NOT NULL,
+ instrument_id INT NOT NULL,
  rent_date DATE NOT NULL,
  return_by DATE NOT NULL,
  time_of_return TIMESTAMP(10) NOT NULL
@@ -164,24 +164,24 @@ ALTER TABLE rented_instrument ADD CONSTRAINT PK_rented_instrument PRIMARY KEY (s
 
 
 CREATE TABLE sibling (
- students_id INT GENERATED ALWAYS AS IDENTITY NOT NULL,
- students_id_0 INT GENERATED ALWAYS AS IDENTITY NOT NULL
+ students_id INT NOT NULL,
+ students_id_0 INT NOT NULL
 );
 
 ALTER TABLE sibling ADD CONSTRAINT PK_sibling PRIMARY KEY (students_id,students_id_0);
 
 
 CREATE TABLE student_contact_person (
- contact_person_id INT GENERATED ALWAYS AS IDENTITY NOT NULL,
- students_id INT GENERATED ALWAYS AS IDENTITY NOT NULL
+ contact_person_id INT NOT NULL,
+ students_id INT NOT NULL
 );
 
 ALTER TABLE student_contact_person ADD CONSTRAINT PK_student_contact_person PRIMARY KEY (contact_person_id,students_id);
 
 
 CREATE TABLE student_expertise (
- students_id INT GENERATED ALWAYS AS IDENTITY NOT NULL,
- instrument_expertise_id INT GENERATED ALWAYS AS IDENTITY NOT NULL
+ students_id INT NOT NULL,
+ instrument_expertise_id INT NOT NULL
 );
 
 ALTER TABLE student_expertise ADD CONSTRAINT PK_student_expertise PRIMARY KEY (students_id,instrument_expertise_id);
@@ -192,9 +192,9 @@ CREATE TABLE ensemble (
  minimum_students INT NOT NULL,
  maximum_students INT NOT NULL,
  genre VARCHAR(50) NOT NULL,
- instructor_id INT GENERATED ALWAYS AS IDENTITY NOT NULL,
- time_slot_id INT GENERATED ALWAYS AS IDENTITY NOT NULL,
- price_Scheme_id INT GENERATED ALWAYS AS IDENTITY NOT NULL
+ instructor_id INT NOT NULL,
+ time_slot_id INT NOT NULL,
+ price_Scheme_id INT NOT NULL
 );
 
 ALTER TABLE ensemble ADD CONSTRAINT PK_ensemble PRIMARY KEY (ensemble_id);
@@ -204,9 +204,9 @@ CREATE TABLE group_lesson (
  group_lesson_id INT GENERATED ALWAYS AS IDENTITY NOT NULL,
  minimum_students INT NOT NULL,
  maximum_students INT NOT NULL,
- instructor_id INT GENERATED ALWAYS AS IDENTITY NOT NULL,
- time_slot_id INT GENERATED ALWAYS AS IDENTITY NOT NULL,
- price_Scheme_id INT GENERATED ALWAYS AS IDENTITY NOT NULL
+ instructor_id INT NOT NULL,
+ time_slot_id INT NOT NULL,
+ price_Scheme_id INT NOT NULL
 );
 
 ALTER TABLE group_lesson ADD CONSTRAINT PK_group_lesson PRIMARY KEY (group_lesson_id);
@@ -214,34 +214,34 @@ ALTER TABLE group_lesson ADD CONSTRAINT PK_group_lesson PRIMARY KEY (group_lesso
 
 CREATE TABLE individual_lesson (
  lesson_id INT GENERATED ALWAYS AS IDENTITY NOT NULL,
- students_id INT GENERATED ALWAYS AS IDENTITY NOT NULL,
- instructor_id INT GENERATED ALWAYS AS IDENTITY NOT NULL,
- time_slot_id INT GENERATED ALWAYS AS IDENTITY NOT NULL,
- price_Scheme_id INT GENERATED ALWAYS AS IDENTITY NOT NULL
+ students_id INT NOT NULL,
+ instructor_id INT NOT NULL,
+ time_slot_id INT NOT NULL,
+ price_Scheme_id INT NOT NULL
 );
 
 ALTER TABLE individual_lesson ADD CONSTRAINT PK_individual_lesson PRIMARY KEY (lesson_id);
 
 
 CREATE TABLE instructor_expertise (
- instructor_id INT GENERATED ALWAYS AS IDENTITY NOT NULL,
- instrument_expertise_id INT GENERATED ALWAYS AS IDENTITY NOT NULL
+ instructor_id INT NOT NULL,
+ instrument_expertise_id INT NOT NULL
 );
 
 ALTER TABLE instructor_expertise ADD CONSTRAINT PK_instructor_expertise PRIMARY KEY (instructor_id,instrument_expertise_id);
 
 
 CREATE TABLE student_ensemble (
- students_id INT GENERATED ALWAYS AS IDENTITY NOT NULL,
- ensemble_id INT GENERATED ALWAYS AS IDENTITY
+ students_id INT NOT NULL,
+ ensemble_id INT NOT NULL
 );
 
 ALTER TABLE student_ensemble ADD CONSTRAINT PK_student_ensemble PRIMARY KEY (students_id,ensemble_id);
 
 
 CREATE TABLE student_group_lesson (
- students_id INT GENERATED ALWAYS AS IDENTITY NOT NULL,
- group_lesson_id INT GENERATED ALWAYS AS IDENTITY
+ students_id INT NOT NULL,
+ group_lesson_id INT NOT NULL
 );
 
 ALTER TABLE student_group_lesson ADD CONSTRAINT PK_student_group_lesson PRIMARY KEY (students_id,group_lesson_id);
