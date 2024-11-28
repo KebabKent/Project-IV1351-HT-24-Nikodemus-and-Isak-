@@ -11,7 +11,7 @@ ALTER TABLE address ADD CONSTRAINT PK_address PRIMARY KEY (address_id);
 CREATE TABLE discount (
  discount_id INT GENERATED ALWAYS AS IDENTITY NOT NULL,
  sibling_discount FLOAT(20) NOT NULL,
- start_of_discount TIMESTAMP(10) NOT NULL
+ start_of_discount TIMESTAMP(6) NOT NULL
 );
 
 ALTER TABLE discount ADD CONSTRAINT PK_discount PRIMARY KEY (discount_id);
@@ -66,24 +66,27 @@ CREATE TABLE phone_number (
 ALTER TABLE phone_number ADD CONSTRAINT PK_phone_number PRIMARY KEY (phone_id);
 
 
+CREATE TYPE skills AS ENUM('Beginner', 'Intermediate', 'Advanced');						--///////////////////////////
+CREATE TYPE lessontypes AS ENUM('Individual', 'Group', 'Ensemble');						--///////////////////////////
+
 CREATE TABLE price_scheme (
- price_Scheme_id INT GENERATED ALWAYS AS IDENTITY NOT NULL,
- skill_level ENUM('Beginner', 'Intermediate', 'Advanced') NOT NULL,
- lesson_type ENUM('Individual', 'Group', 'Ensemble') NOT NULL,
- lesson_price FLOAT(20) NOT NULL,
+ price_scheme_id INT GENERATED ALWAYS AS IDENTITY NOT NULL,
+ skill_level SKILLS NOT NULL,
+ lesson_type LESSONTYPES NOT NULL,
+ lesson_price FLOAT(20) NOT NULL, 
  instructor_pay FLOAT(20) NOT NULL
 );
 
-ALTER TABLE price_scheme ADD CONSTRAINT PK_price_scheme PRIMARY KEY (price_Scheme_id);
+ALTER TABLE price_scheme ADD CONSTRAINT PK_price_scheme PRIMARY KEY (price_scheme_id);
 
 
 CREATE TABLE student (
- students_id INT GENERATED ALWAYS AS IDENTITY NOT NULL,
+ student_id INT GENERATED ALWAYS AS IDENTITY NOT NULL,
  person_number VARCHAR(12) NOT NULL UNIQUE,
  person_id INT NOT NULL
 );
 
-ALTER TABLE student ADD CONSTRAINT PK_student PRIMARY KEY (students_id);
+ALTER TABLE student ADD CONSTRAINT PK_student PRIMARY KEY (student_id);
 
 
 CREATE TABLE time_slot (
@@ -137,7 +140,7 @@ ALTER TABLE instrument ADD CONSTRAINT PK_instrument PRIMARY KEY (instrument_id);
 
 CREATE TABLE instrument_expertise (
  instrument_expertise_id INT GENERATED ALWAYS AS IDENTITY NOT NULL,
- skill_level ENUM('Beginner', 'Intermediate', 'Advanced'),
+ skill_level SKILLS NOT NULL,
  instrument_type_id INT NOT NULL
 );
 
@@ -153,38 +156,38 @@ ALTER TABLE person_phone_number ADD CONSTRAINT PK_person_phone_number PRIMARY KE
 
 
 CREATE TABLE rented_instrument (
- students_id INT NOT NULL,
+ student_id INT NOT NULL,
  instrument_id INT NOT NULL,
  rent_date DATE NOT NULL,
  return_by DATE NOT NULL,
- time_of_return TIMESTAMP(10) NOT NULL
+ time_of_return TIMESTAMP(6) NOT NULL
 );
 
-ALTER TABLE rented_instrument ADD CONSTRAINT PK_rented_instrument PRIMARY KEY (students_id,instrument_id);
+ALTER TABLE rented_instrument ADD CONSTRAINT PK_rented_instrument PRIMARY KEY (student_id,instrument_id);
 
 
 CREATE TABLE sibling (
- students_id INT NOT NULL,
- students_id_0 INT NOT NULL
+ student_id INT NOT NULL,
+ student_sibling_id INT NOT NULL
 );
 
-ALTER TABLE sibling ADD CONSTRAINT PK_sibling PRIMARY KEY (students_id,students_id_0);
+ALTER TABLE sibling ADD CONSTRAINT PK_sibling PRIMARY KEY (student_id,student_sibling_id);
 
 
 CREATE TABLE student_contact_person (
  contact_person_id INT NOT NULL,
- students_id INT NOT NULL
+ student_id INT NOT NULL
 );
 
-ALTER TABLE student_contact_person ADD CONSTRAINT PK_student_contact_person PRIMARY KEY (contact_person_id,students_id);
+ALTER TABLE student_contact_person ADD CONSTRAINT PK_student_contact_person PRIMARY KEY (contact_person_id,student_id);
 
 
 CREATE TABLE student_expertise (
- students_id INT NOT NULL,
+ student_id INT NOT NULL,
  instrument_expertise_id INT NOT NULL
 );
 
-ALTER TABLE student_expertise ADD CONSTRAINT PK_student_expertise PRIMARY KEY (students_id,instrument_expertise_id);
+ALTER TABLE student_expertise ADD CONSTRAINT PK_student_expertise PRIMARY KEY (student_id,instrument_expertise_id);
 
 
 CREATE TABLE ensemble (
@@ -194,7 +197,7 @@ CREATE TABLE ensemble (
  genre VARCHAR(50) NOT NULL,
  instructor_id INT NOT NULL,
  time_slot_id INT NOT NULL,
- price_Scheme_id INT NOT NULL
+ price_scheme_id INT NOT NULL
 );
 
 ALTER TABLE ensemble ADD CONSTRAINT PK_ensemble PRIMARY KEY (ensemble_id);
@@ -206,7 +209,7 @@ CREATE TABLE group_lesson (
  maximum_students INT NOT NULL,
  instructor_id INT NOT NULL,
  time_slot_id INT NOT NULL,
- price_Scheme_id INT NOT NULL
+ price_scheme_id INT NOT NULL
 );
 
 ALTER TABLE group_lesson ADD CONSTRAINT PK_group_lesson PRIMARY KEY (group_lesson_id);
@@ -214,10 +217,10 @@ ALTER TABLE group_lesson ADD CONSTRAINT PK_group_lesson PRIMARY KEY (group_lesso
 
 CREATE TABLE individual_lesson (
  lesson_id INT GENERATED ALWAYS AS IDENTITY NOT NULL,
- students_id INT NOT NULL,
+ student_id INT NOT NULL,
  instructor_id INT NOT NULL,
  time_slot_id INT NOT NULL,
- price_Scheme_id INT NOT NULL
+ price_scheme_id INT NOT NULL
 );
 
 ALTER TABLE individual_lesson ADD CONSTRAINT PK_individual_lesson PRIMARY KEY (lesson_id);
@@ -232,19 +235,19 @@ ALTER TABLE instructor_expertise ADD CONSTRAINT PK_instructor_expertise PRIMARY 
 
 
 CREATE TABLE student_ensemble (
- students_id INT NOT NULL,
+ student_id INT NOT NULL,
  ensemble_id INT NOT NULL
 );
 
-ALTER TABLE student_ensemble ADD CONSTRAINT PK_student_ensemble PRIMARY KEY (students_id,ensemble_id);
+ALTER TABLE student_ensemble ADD CONSTRAINT PK_student_ensemble PRIMARY KEY (student_id,ensemble_id);
 
 
 CREATE TABLE student_group_lesson (
- students_id INT NOT NULL,
+ student_id INT NOT NULL,
  group_lesson_id INT NOT NULL
 );
 
-ALTER TABLE student_group_lesson ADD CONSTRAINT PK_student_group_lesson PRIMARY KEY (students_id,group_lesson_id);
+ALTER TABLE student_group_lesson ADD CONSTRAINT PK_student_group_lesson PRIMARY KEY (student_id,group_lesson_id);
 
 
 ALTER TABLE person_address ADD CONSTRAINT FK_person_address_0 FOREIGN KEY (address_id) REFERENCES address (address_id) ON DELETE CASCADE;
@@ -276,47 +279,47 @@ ALTER TABLE person_phone_number ADD CONSTRAINT FK_person_phone_number_0 FOREIGN 
 ALTER TABLE person_phone_number ADD CONSTRAINT FK_person_phone_number_1 FOREIGN KEY (phone_id) REFERENCES phone_number (phone_id) ON DELETE CASCADE;
 
 
-ALTER TABLE rented_instrument ADD CONSTRAINT FK_rented_instrument_0 FOREIGN KEY (students_id) REFERENCES student (students_id) ON DELETE CASCADE; 
+ALTER TABLE rented_instrument ADD CONSTRAINT FK_rented_instrument_0 FOREIGN KEY (student_id) REFERENCES student (student_id) ON DELETE CASCADE; 
 ALTER TABLE rented_instrument ADD CONSTRAINT FK_rented_instrument_1 FOREIGN KEY (instrument_id) REFERENCES instrument (instrument_id) ON DELETE CASCADE;
 
 
-ALTER TABLE sibling ADD CONSTRAINT FK_sibling_0 FOREIGN KEY (students_id) REFERENCES student (students_id) ON DELETE CASCADE;
-ALTER TABLE sibling ADD CONSTRAINT FK_sibling_1 FOREIGN KEY (students_id_0) REFERENCES student (students_id) ON DELETE CASCADE;
+ALTER TABLE sibling ADD CONSTRAINT FK_sibling_0 FOREIGN KEY (student_id) REFERENCES student (student_id) ON DELETE CASCADE;
+ALTER TABLE sibling ADD CONSTRAINT FK_sibling_1 FOREIGN KEY (student_sibling_id) REFERENCES student (student_id) ON DELETE CASCADE;
 
 
 ALTER TABLE student_contact_person ADD CONSTRAINT FK_student_contact_person_0 FOREIGN KEY (contact_person_id) REFERENCES contact_person (contact_person_id) ON DELETE CASCADE;
-ALTER TABLE student_contact_person ADD CONSTRAINT FK_student_contact_person_1 FOREIGN KEY (students_id) REFERENCES student (students_id) ON DELETE CASCADE;
+ALTER TABLE student_contact_person ADD CONSTRAINT FK_student_contact_person_1 FOREIGN KEY (student_id) REFERENCES student (student_id) ON DELETE CASCADE;
 
 
-ALTER TABLE student_expertise ADD CONSTRAINT FK_student_expertise_0 FOREIGN KEY (students_id) REFERENCES student (students_id) ON DELETE CASCADE;
+ALTER TABLE student_expertise ADD CONSTRAINT FK_student_expertise_0 FOREIGN KEY (student_id) REFERENCES student (student_id) ON DELETE CASCADE;
 ALTER TABLE student_expertise ADD CONSTRAINT FK_student_expertise_1 FOREIGN KEY (instrument_expertise_id) REFERENCES instrument_expertise (instrument_expertise_id) ON DELETE CASCADE;
 
 
 ALTER TABLE ensemble ADD CONSTRAINT FK_ensemble_0 FOREIGN KEY (instructor_id) REFERENCES instructor (instructor_id) ON DELETE CASCADE;
 ALTER TABLE ensemble ADD CONSTRAINT FK_ensemble_1 FOREIGN KEY (time_slot_id) REFERENCES time_slot (time_slot_id) ON DELETE CASCADE;
-ALTER TABLE ensemble ADD CONSTRAINT FK_ensemble_2 FOREIGN KEY (price_Scheme_id) REFERENCES price_scheme (price_Scheme_id) ON DELETE CASCADE;
+ALTER TABLE ensemble ADD CONSTRAINT FK_ensemble_2 FOREIGN KEY (price_scheme_id) REFERENCES price_scheme (price_scheme_id) ON DELETE CASCADE;
 
 
 ALTER TABLE group_lesson ADD CONSTRAINT FK_group_lesson_0 FOREIGN KEY (instructor_id) REFERENCES instructor (instructor_id) ON DELETE CASCADE;
 ALTER TABLE group_lesson ADD CONSTRAINT FK_group_lesson_1 FOREIGN KEY (time_slot_id) REFERENCES time_slot (time_slot_id) ON DELETE CASCADE;
-ALTER TABLE group_lesson ADD CONSTRAINT FK_group_lesson_2 FOREIGN KEY (price_Scheme_id) REFERENCES price_scheme (price_Scheme_id) ON DELETE CASCADE;
+ALTER TABLE group_lesson ADD CONSTRAINT FK_group_lesson_2 FOREIGN KEY (price_scheme_id) REFERENCES price_scheme (price_scheme_id) ON DELETE CASCADE;
 
 
-ALTER TABLE individual_lesson ADD CONSTRAINT FK_individual_lesson_0 FOREIGN KEY (students_id) REFERENCES student (students_id) ON DELETE CASCADE;
+ALTER TABLE individual_lesson ADD CONSTRAINT FK_individual_lesson_0 FOREIGN KEY (student_id) REFERENCES student (student_id) ON DELETE CASCADE;
 ALTER TABLE individual_lesson ADD CONSTRAINT FK_individual_lesson_1 FOREIGN KEY (instructor_id) REFERENCES instructor (instructor_id) ON DELETE CASCADE;
 ALTER TABLE individual_lesson ADD CONSTRAINT FK_individual_lesson_2 FOREIGN KEY (time_slot_id) REFERENCES time_slot (time_slot_id) ON DELETE CASCADE;
-ALTER TABLE individual_lesson ADD CONSTRAINT FK_individual_lesson_3 FOREIGN KEY (price_Scheme_id) REFERENCES price_scheme (price_Scheme_id) ON DELETE CASCADE;
+ALTER TABLE individual_lesson ADD CONSTRAINT FK_individual_lesson_3 FOREIGN KEY (price_scheme_id) REFERENCES price_scheme (price_scheme_id) ON DELETE CASCADE;
 
 
 ALTER TABLE instructor_expertise ADD CONSTRAINT FK_instructor_expertise_0 FOREIGN KEY (instructor_id) REFERENCES instructor (instructor_id) ON DELETE CASCADE;
 ALTER TABLE instructor_expertise ADD CONSTRAINT FK_instructor_expertise_1 FOREIGN KEY (instrument_expertise_id) REFERENCES instrument_expertise (instrument_expertise_id) ON DELETE CASCADE;
 
 
-ALTER TABLE student_ensemble ADD CONSTRAINT FK_student_ensemble_0 FOREIGN KEY (students_id) REFERENCES student (students_id) ON DELETE CASCADE;
+ALTER TABLE student_ensemble ADD CONSTRAINT FK_student_ensemble_0 FOREIGN KEY (student_id) REFERENCES student (student_id) ON DELETE CASCADE;
 ALTER TABLE student_ensemble ADD CONSTRAINT FK_student_ensemble_1 FOREIGN KEY (ensemble_id) REFERENCES ensemble (ensemble_id) ON DELETE CASCADE;
 
 
-ALTER TABLE student_group_lesson ADD CONSTRAINT FK_student_group_lesson_0 FOREIGN KEY (students_id) REFERENCES student (students_id) ON DELETE CASCADE;
+ALTER TABLE student_group_lesson ADD CONSTRAINT FK_student_group_lesson_0 FOREIGN KEY (student_id) REFERENCES student (student_id) ON DELETE CASCADE;
 ALTER TABLE student_group_lesson ADD CONSTRAINT FK_student_group_lesson_1 FOREIGN KEY (group_lesson_id) REFERENCES group_lesson (group_lesson_id) ON DELETE CASCADE;
 
 
