@@ -1,9 +1,11 @@
 CREATE MATERIALIZED VIEW lesson_counts AS (
     SELECT
         instructor.instructor_id,
-        COUNT(DISTINCT ensemble.ensemble_id) AS total_ensembles,
-        COUNT(DISTINCT individual_lesson.lesson_id) AS total_individual_lessons,
-        COUNT(DISTINCT group_lesson.group_lesson_id) AS total_group_lessons
+		(
+			COALESCE(COUNT(DISTINCT individual_lesson.lesson_id), 0) + 
+			COALESCE(COUNT(DISTINCT group_lesson.group_lesson_id), 0) + 
+			COALESCE(COUNT(DISTINCT ensemble.ensemble_id), 0)
+		) AS total_lessons
 		
     FROM
         instructor	
