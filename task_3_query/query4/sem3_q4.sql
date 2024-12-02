@@ -23,7 +23,7 @@ FROM time_slot, ensemble, students
 
 WHERE ensemble.time_slot_id = time_slot.time_slot_id 
 	  AND ensemble.ensemble_id = students.ensemble_id 
-	  AND EXTRACT(WEEK FROM time_slot.start_time) = MOD(EXTRACT(WEEK FROM CURRENT_TIMESTAMP), 52) + 1
+	  AND EXTRACT(WEEK FROM time_slot.start_time) = MOD(46, 52) + 1
 
-GROUP BY time_slot.start_time, ensemble.ensemble_id
+GROUP BY EXTRACT(DOW FROM time_slot.start_time), ensemble.ensemble_id
 ;
