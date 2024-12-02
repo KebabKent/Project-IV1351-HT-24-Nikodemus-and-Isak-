@@ -171,12 +171,15 @@ INSERT INTO price_scheme (skill_level, lesson_type, lesson_price, instructor_pay
 -- Insert data into time_slot
 INSERT INTO time_slot (start_time, end_time) VALUES
 ('2024-11-22 10:00:00', '2024-11-22 12:00:00'),
-('2024-11-22 13:00:00', '2024-11-22 15:00:00');
+('2024-11-22 13:00:00', '2024-11-22 15:00:00'),
+('2024-12-22 10:00:00', '2024-12-22 12:00:00'),
+('2024-12-02 10:00:00', '2024-12-02 12:00:00');
 
 -- Insert data into individual_lesson
 INSERT INTO individual_lesson (student_id, instructor_id, time_slot_id, price_scheme_id) VALUES
 (1, 1, 1, 1),
-(3, 3, 2, 2);
+(3, 3, 2, 7),
+(1, 1, 3, 4);
 
 -- Insert data into group_lesson
 INSERT INTO group_lesson (minimum_students, maximum_students, instructor_id, time_slot_id, price_scheme_id) VALUES
@@ -184,8 +187,8 @@ INSERT INTO group_lesson (minimum_students, maximum_students, instructor_id, tim
 
 -- Insert data into ensemble
 INSERT INTO ensemble (minimum_students, maximum_students, genre, instructor_id, time_slot_id, price_scheme_id) VALUES
-(5, 20, 'Classical', 1, 1, 6),
-(4, 15, 'Jazz', 3, 2, 9);
+(4, 15, 'Jazz', 2, 2, 6),
+(5, 20, 'Classical', 1, 2, 6);
 
 
 
