@@ -1,6 +1,4 @@
---VACUUM ANALYZE;
-
-
+CREATE MATERIALIZED VIEW lessons_per_month AS (
 SELECT EXTRACT(MONTH FROM time_slot.start_time) AS month, 
 	  (
 	  	COUNT(individual_lesson.lesson_id) + 
@@ -19,4 +17,5 @@ FROM time_slot
 WHERE EXTRACT(YEAR FROM time_slot.start_time) = '2024' 
 GROUP BY EXTRACT(MONTH FROM time_slot.start_time)
 ORDER BY EXTRACT(MONTH FROM time_slot.start_time) ASC
+)
 ;
